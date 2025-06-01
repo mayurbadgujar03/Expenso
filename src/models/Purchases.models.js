@@ -1,27 +1,29 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const purchasesSchema = new Schema(
-    {
-        createdBy: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        item: {
-            type: Schema.Types.ObjectId,
-            ref: "Item",
-            required: true,
-        },
-        quantity: {
-            type: String,
-        },
-        total_price: {
-            type: String,
-        }
-    }, 
-    {
-        timestamps: true,
-    }
+const purchaseSchema = new Schema(
+  {
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    item: {
+      type: Schema.Types.ObjectId,
+      ref: "Item",
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    total_price: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
 );
 
-export const Purchases = mongoose.model("Purchases", purchasesSchema);
+export const Purchase = mongoose.model("Purchase", purchaseSchema);
