@@ -1,6 +1,6 @@
-import ApiError from "../utils/api-error.js";
-import User from "../models/Users.models.js";
-import ApiResponse from "../utils/api-response.js";
+import { ApiError } from "../utils/api-error.js";
+import { User } from "../models/Users.models.js";
+import { ApiResponse } from "../utils/api-response.js";
 
 const registerUser = async (req, res) => {
   const { username, fullname, email, password } = req.body;
@@ -27,16 +27,13 @@ const registerUser = async (req, res) => {
       throw new ApiError(400, "Network error - User not created");
     }
 
-    await user.save();
-
     res
       .status(200)
       .json(new ApiResponse(200, { message: "User stored successfully" }));
   } catch (error) {
     return res
       .status(500)
-      .json(new ApiError(400, "User not stored successfully"));
+      .json(new ApiError(500, "User not stored successfully"));
   }
 };
-
 export { registerUser };

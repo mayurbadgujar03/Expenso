@@ -5,6 +5,8 @@ const app = express();
 //router imports
 import userRegister from "./routes/auth.routes.js";
 
-app.use("/api/v1/register-user", userRegister);
+app.use(express.json());
+
+app.use("/api/v1/users", userRegister);
 
 export default app;
