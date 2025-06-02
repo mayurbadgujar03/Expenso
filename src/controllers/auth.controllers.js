@@ -2,8 +2,11 @@ import { ApiError } from "../utils/api-error.js";
 import { User } from "../models/Users.models.js";
 import { ApiResponse } from "../utils/api-response.js";
 
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const registerUser = async (req, res) => {
   const { username, fullname, email, password } = req.body;
@@ -14,7 +17,6 @@ const registerUser = async (req, res) => {
 
   try {
     const exitingUser = await User.findOne({ email });
-
     if (exitingUser) {
       throw new ApiError(400, "User already exist");
     }
@@ -25,12 +27,11 @@ const registerUser = async (req, res) => {
       email,
       password,
     });
-
     if (!user) {
       throw new ApiError(400, "Network error - User not created");
     }
 
-    res
+    return res
       .status(200)
       .json(new ApiResponse(200, { message: "User stored successfully" }));
   } catch (error) {
@@ -49,13 +50,11 @@ const loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-
     if (!user) {
       throw new ApiError(400, "Invalid email or password");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       throw new ApiError(400, "Invalid email or password");
     }
@@ -77,12 +76,10 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, cookieOptions);
 
     return res
-      .status(201)
-      .json(
-        new ApiResponse(200, token, { message: "User logged-in successfully" }),
-      );
+      .status(200)
+      .json(new ApiResponse(200, { token }, "User logged-in successfully"));
   } catch (error) {
-    return res.status(400).json(new ApiError(400, "Login failed"));
+    return res.status(500).json(new ApiError(500, "Login failed"));
   }
 };
 export { registerUser, loginUser };
