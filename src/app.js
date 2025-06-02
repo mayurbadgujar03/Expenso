@@ -5,10 +5,12 @@ const app = express();
 
 //router imports
 import userRegister from "./routes/auth.routes.js";
+import loginUser from "./routes/auth.routes.js";
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/users", userRegister);
+app.use("/api/v1/users", loginUser);
 
 export default app;
