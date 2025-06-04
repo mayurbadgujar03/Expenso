@@ -13,7 +13,7 @@ const isLoggedIn = async (req, res, next) => {
       throw new ApiError(400, "Authentication failed");
     }
 
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
 
     next();

@@ -24,6 +24,6 @@ app.use(
 app.use("/api/v1/users", userRegister);
 app.use("/api/v1/users", loginUser);
 
-app.use("/api/v1/users/dashboard/items", createItem)
+app.use("/api/v1/dashboard/items", createItem)
 
 export default app;

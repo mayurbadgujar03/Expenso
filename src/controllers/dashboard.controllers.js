@@ -14,7 +14,7 @@ const createItem = async (req, res) => {
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
-      throw new ApiError(400, "Cookie expried");
+      throw new ApiError(401, "Session expired, please login again");
     }
 
     const item = await Items.create({
