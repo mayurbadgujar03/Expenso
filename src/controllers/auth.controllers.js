@@ -16,8 +16,8 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    const exitingUser = await User.findOne({ email });
-    if (exitingUser) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       throw new ApiError(400, "User already exist");
     }
 
