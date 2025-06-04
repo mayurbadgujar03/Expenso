@@ -6,10 +6,14 @@ const itemSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique: true,
+      index: true,
     },
     name: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     price: {
       type: Number,
