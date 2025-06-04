@@ -6,7 +6,7 @@ import { ApiError } from "../utils/api-error.js";
 dotenv.config();
 
 const isLoggedIn = async (req, res, next) => {
-  const token = req.cookie?.token;
+  const token = req.cookies?.token;
 
   try {
     if (!token) {
