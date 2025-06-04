@@ -44,4 +44,9 @@ const createItem = async (req, res) => {
   }
 };
 
-export { createItem };
+const dashboard = async (req, res) => {
+  try {
+  } catch (error) {}
+};
+
+export { createItem, dashboard };

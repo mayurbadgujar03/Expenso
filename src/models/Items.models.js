@@ -6,14 +6,10 @@ const itemSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true,
-      index: true,
     },
     name: {
       type: String,
       required: true,
-      unique: true,
-      index: true,
     },
     price: {
       type: Number,
@@ -34,5 +30,7 @@ const itemSchema = new Schema(
     timestamps: true,
   },
 );
+
+itemSchema.index({ createdBy: 1, name: 1 }, { unique: true });
 
 export const Items = mongoose.model("Items", itemSchema);

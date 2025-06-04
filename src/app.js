@@ -8,6 +8,7 @@ const app = express();
 import userRegister from "./routes/auth.routes.js";
 import loginUser from "./routes/auth.routes.js";
 import createItem from "./routes/dashboard.route.js";
+import dashboard from "./routes/dashboard.route.js";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,5 +26,6 @@ app.use("/api/v1/users", userRegister);
 app.use("/api/v1/users", loginUser);
 
 app.use("/api/v1/dashboard/items", createItem)
+app.use("/api/v1/user", dashboard)
 
 export default app;
