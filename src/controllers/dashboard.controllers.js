@@ -26,7 +26,7 @@ const createItem = async (req, res) => {
     if (existingItem) {
       throw new ApiError(400, "Item already exist");
     }
-    
+
     const item = await Items.create({
       createdBy: user._id,
       name: normalizedName,
@@ -52,14 +52,13 @@ const dashboard = async (req, res) => {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const items = await Items.find({createdBy: user._id});
+    const items = await Items.find({ createdBy: user._id });
 
-    console.log(user._id);
-    console.log(items);
-    
+    return res
+      .status(200)
+      .json(new ApiResponse(200, items, "Dashboard loaded"));
   } catch (error) {
-    console.log(error);
-    
+    return res.status(500).json(new ApiError(500, "Failed to load dashboard"));
   }
 };
 
