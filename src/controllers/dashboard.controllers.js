@@ -26,7 +26,7 @@ const createItem = async (req, res) => {
     if (existingItem) {
       throw new ApiError(400, "Item already exist");
     }
-
+    
     const item = await Items.create({
       createdBy: user._id,
       name: normalizedName,
@@ -46,7 +46,21 @@ const createItem = async (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-  } catch (error) {}
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      throw new ApiError(401, "Session expired, please login again");
+    }
+
+    const items = await Items.find({createdBy: user._id});
+
+    console.log(user._id);
+    console.log(items);
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
 };
 
 export { createItem, dashboard };
