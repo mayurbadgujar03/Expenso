@@ -16,6 +16,8 @@ import confirm from "./routes/dashboard.routes.js";
 
 import profile from "./routes/profile.routes.js";
 
+import history from "./routes/history.routes.js";
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -37,5 +39,7 @@ app.use("/api/v1/user", dashboard);
 app.use("/api/v1/user", confirm);
 
 app.use("/api/v1/user", profile);
+
+app.use("/api/v1/user", history);
 
 export default app;

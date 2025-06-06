@@ -92,4 +92,5 @@ const logoutUser = async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, "LoggedOut the user"));
 };
+
 export { registerUser, loginUser, logoutUser };
