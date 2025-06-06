@@ -8,6 +8,7 @@ const app = express();
 
 import userRegister from "./routes/auth.routes.js";
 import loginUser from "./routes/auth.routes.js";
+import logoutUser from "./routes/auth.routes.js";
 
 import createItem from "./routes/dashboard.routes.js";
 import dashboard from "./routes/dashboard.routes.js";
@@ -29,6 +30,7 @@ app.use(
 
 app.use("/api/v1/users", userRegister);
 app.use("/api/v1/users", loginUser);
+app.use("/api/v1/user", logoutUser);
 
 app.use("/api/v1/dashboard", createItem);
 app.use("/api/v1/user", dashboard);

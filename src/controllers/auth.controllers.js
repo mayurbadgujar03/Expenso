@@ -83,4 +83,13 @@ const loginUser = async (req, res) => {
     return res.status(500).json(new ApiError(500, "Login failed"));
   }
 };
-export { registerUser, loginUser };
+
+const logoutUser = async (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  return res.status(200).json(new ApiResponse(200, "LoggedOut the user"));
+};
+export { registerUser, loginUser, logoutUser };
