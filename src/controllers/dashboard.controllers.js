@@ -39,8 +39,6 @@ const createItem = async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, item, "Item stored successfully"));
   } catch (error) {
-    console.log(error);
-
     return res.status(500).json(new ApiError(500, "Failed to add item"));
   }
 };
