@@ -9,6 +9,7 @@ import userRegister from "./routes/auth.routes.js";
 import loginUser from "./routes/auth.routes.js";
 import createItem from "./routes/dashboard.route.js";
 import dashboard from "./routes/dashboard.route.js";
+import confirm from "./routes/dashboard.route.js";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,7 +26,8 @@ app.use(
 app.use("/api/v1/users", userRegister);
 app.use("/api/v1/users", loginUser);
 
-app.use("/api/v1/dashboard/items", createItem);
+app.use("/api/v1/dashboard", createItem);
 app.use("/api/v1/user", dashboard);
+app.use("/api/v1/user", confirm);
 
 export default app;
