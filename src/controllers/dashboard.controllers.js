@@ -46,16 +46,70 @@ const createItem = async (req, res) => {
 const dashboard = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
+    const now = new Date();
+    const startingOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endingOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
+    const startingOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
+    const endingOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999,
+    );
 
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
 
     const items = await Items.find({ createdBy: user._id });
+    const monthlyPurchasedItems = await Purchase.find({
+      createdAt: {
+        $gte: startingOfMonth,
+        $lte: endingOfMonth,
+      },
+    });
+
+    let monthlyTotal = 0;
+    monthlyPurchasedItems.forEach((purchasedItem) => {
+      monthlyTotal += purchasedItem.total_price;
+    });
+
+    const daliyPurchasedItems = await Purchase.find({
+      createdAt: {
+        $gte: startingOfDay,
+        $lte: endingOfDay,
+      },
+    });
+
+    let daliyTotal = 0;
+    daliyPurchasedItems.forEach((purchasedItem) => {
+      daliyTotal += purchasedItem.total_price;
+    });
 
     return res
       .status(200)
-      .json(new ApiResponse(200, items, "Dashboard loaded"));
+      .json(
+        new ApiResponse(
+          200,
+          { items, monthlyTotal, daliyTotal },
+          "Dashboard loaded",
+        ),
+      );
   } catch (error) {
     return res.status(500).json(new ApiError(500, "Failed to load dashboard"));
   }
@@ -90,6 +144,7 @@ const confirm = async (req, res) => {
           ),
         );
     }
+    q;
 
     const purchase = await Purchase.create({
       createdBy: user._id,
