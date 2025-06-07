@@ -33,4 +33,4 @@ const itemSchema = new Schema(
 
 itemSchema.index({ createdBy: 1, name: 1 }, { unique: true });
 
-export const Items = mongoose.model("Items", itemSchema);
+export const Items = mongoose.model("Item", itemSchema);

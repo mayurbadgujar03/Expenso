@@ -93,7 +93,7 @@ const confirm = async (req, res) => {
 
     const purchase = await Purchase.create({
       createdBy: user._id,
-      item: item_id,
+      item: item._id,
       quantity,
       total_price,
     });
