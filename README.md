@@ -15,6 +15,8 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green?style=flat-square)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Active-blue?style=flat-square)
+![Maintenance](https://img.shields.io/badge/Maintained-yes-brightgreen.svg)
+![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 ---
 
