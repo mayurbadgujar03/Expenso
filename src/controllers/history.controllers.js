@@ -17,8 +17,8 @@ const history = async (req, res) => {
     );
 
     return res
-      .status(201)
-      .json(new ApiResponse(201, purchases, "History loaded successfully"));
+      .status(200)
+      .json(new ApiResponse(200, purchases, "History loaded successfully"));
   } catch (error) {
     return res
       .status(500)
