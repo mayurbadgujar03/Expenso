@@ -78,6 +78,7 @@ const dashboard = async (req, res) => {
 
     const items = await Items.find({ createdBy: user._id });
     const monthlyPurchasedItems = await Purchase.find({
+      createdBy: user._id,
       createdAt: {
         $gte: startingOfMonth,
         $lte: endingOfMonth,
@@ -90,6 +91,7 @@ const dashboard = async (req, res) => {
     });
 
     const daliyPurchasedItems = await Purchase.find({
+      createdBy: user._id,
       createdAt: {
         $gte: startingOfDay,
         $lte: endingOfDay,
@@ -144,7 +146,6 @@ const confirm = async (req, res) => {
           ),
         );
     }
-    q;
 
     const purchase = await Purchase.create({
       createdBy: user._id,

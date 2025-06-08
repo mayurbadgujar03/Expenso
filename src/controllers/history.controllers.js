@@ -12,13 +12,14 @@ const history = async (req, res) => {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const purchases = await Purchase.find().populate("item");
+    const purchases = await Purchase.find({ createdBy: user._id }).populate(
+      "item",
+    );
 
     return res
       .status(201)
       .json(new ApiResponse(201, purchases, "History loaded successfully"));
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json(new ApiError(500, "Purchase not done properly"));
