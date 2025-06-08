@@ -39,6 +39,11 @@ const createItem = async (req, res) => {
       .status(201)
       .json(new ApiResponse(201, item, "Item stored successfully"));
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res.status(500).json(new ApiError(500, "Failed to add item"));
   }
 };
@@ -113,6 +118,11 @@ const dashboard = async (req, res) => {
         ),
       );
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res.status(500).json(new ApiError(500, "Failed to load dashboard"));
   }
 };
@@ -160,6 +170,16 @@ const confirm = async (req, res) => {
       .status(201)
       .json(new ApiResponse(201, purchase, "Purchased successfully"));
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res
       .status(500)
       .json(new ApiError(500, "Purchase not done properly"));

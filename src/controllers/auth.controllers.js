@@ -47,6 +47,11 @@ const registerUser = async (req, res) => {
         new ApiResponse(201, { userId: user._id }, "User stored successfully"),
       );
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res.status(500).json(new ApiError(500, "Internal server error"));
   }
 };
@@ -66,7 +71,7 @@ const loginUser = async (req, res) => {
       throw new ApiError(400, "Invalid email or password");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.isPasswordCorrect(password);
     if (!isMatch) {
       throw new ApiError(400, "Invalid email or password");
     }
@@ -104,6 +109,11 @@ const loginUser = async (req, res) => {
       ),
     );
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res.status(500).json(new ApiError(500, "Login failed"));
   }
 };

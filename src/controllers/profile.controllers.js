@@ -19,6 +19,11 @@ const profile = async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, user, "Profile loaded successfully"));
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res.status(500).json(new ApiError(500, "Profile not loaded"));
   }
 };

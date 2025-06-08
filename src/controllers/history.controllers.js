@@ -20,6 +20,11 @@ const history = async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, purchases, "History loaded successfully"));
   } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
     return res
       .status(500)
       .json(new ApiError(500, "Purchase not done properly"));
