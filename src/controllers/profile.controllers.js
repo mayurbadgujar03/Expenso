@@ -16,8 +16,8 @@ const profile = async (req, res) => {
     }
 
     return res
-      .status(201)
-      .json(new ApiResponse(201, user, "Profile loaded successfully"));
+      .status(200)
+      .json(new ApiResponse(200, user, "Profile loaded successfully"));
   } catch (error) {
     return res.status(500).json(new ApiError(500, "Profile not loaded"));
   }
