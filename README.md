@@ -41,6 +41,14 @@
 
 ---
 
+## 📘 Devlogs
+
+Want to follow the full journey of building Expenso?
+
+Check out the detailed [Expenso Devlogs](https://github.com/mayurbadgujar03/mayur-devlogs/tree/main/expenso) for daily breakdowns, decisions, and learning notes.
+
+---
+
 ## ⚙️ Installation
 
 ```bash
