@@ -9,7 +9,7 @@ const createItem = async (req, res) => {
   let { name, price, image } = req.body;
 
   if (!name || !price || !image) {
-    throw new ApiError(400, "All fields are required");
+    return res.status(400).json(new ApiError(400, "All fields are required"));
   }
 
   try {
@@ -25,7 +25,7 @@ const createItem = async (req, res) => {
       name: normalizedName,
     });
     if (existingItem) {
-      throw new ApiError(400, "Item already exist");
+      throw new ApiError(400, "Item with this name already exists");
     }
 
     const item = await Items.create({
@@ -36,8 +36,8 @@ const createItem = async (req, res) => {
     });
 
     return res
-      .status(200)
-      .json(new ApiResponse(200, item, "Item stored successfully"));
+      .status(201)
+      .json(new ApiResponse(201, item, "Item stored successfully"));
   } catch (error) {
     return res.status(500).json(new ApiError(500, "Failed to add item"));
   }
@@ -90,7 +90,7 @@ const dashboard = async (req, res) => {
       monthlyTotal += purchasedItem.total_price;
     });
 
-    const daliyPurchasedItems = await Purchase.find({
+    const dailyPurchasedItems = await Purchase.find({
       createdBy: user._id,
       createdAt: {
         $gte: startingOfDay,
@@ -98,9 +98,9 @@ const dashboard = async (req, res) => {
       },
     });
 
-    let daliyTotal = 0;
-    daliyPurchasedItems.forEach((purchasedItem) => {
-      daliyTotal += purchasedItem.total_price;
+    let dailyTotal = 0;
+    dailyPurchasedItems.forEach((purchasedItem) => {
+      dailyTotal += purchasedItem.total_price;
     });
 
     return res
@@ -108,7 +108,7 @@ const dashboard = async (req, res) => {
       .json(
         new ApiResponse(
           200,
-          { items, monthlyTotal, daliyTotal },
+          { items, monthlyTotal, dailyTotal },
           "Dashboard loaded",
         ),
       );
@@ -121,10 +121,12 @@ const confirm = async (req, res) => {
   const { quantity, total_price, item_id } = req.body;
 
   if (!quantity || !total_price || !item_id) {
-    throw new ApiError(401, "Data not passed correctly");
+    return res.status(400).json(new ApiError(400, "Data not passed correctly"));
   }
   if (quantity <= 0) {
-    throw new ApiError(401, "Nagtive data is not allowed");
+    return res
+      .status(400)
+      .json(new ApiError(400, "Negative data is not allowed"));
   }
 
   try {
@@ -138,11 +140,11 @@ const confirm = async (req, res) => {
     if (item.price * quantity !== total_price) {
       console.warn("Price mismatch detected for user:", user.fullname);
       return res
-        .status(500)
+        .status(400)
         .json(
           new ApiError(
-            500,
-            `"Price mismatch detected for user:", ${user.fullname}`,
+            400,
+            `Price mismatch detected for user: ${user.fullname}`,
           ),
         );
     }
