@@ -72,13 +72,26 @@ const loginUser = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     };
 
     res.cookie("token", token, cookieOptions);
 
-    return res
-      .status(200)
-      .json(new ApiResponse(200, { token }, "User logged-in successfully"));
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          token,
+          user: {
+            id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+          },
+        },
+        "User logged-in successfully",
+      ),
+    );
   } catch (error) {
     return res.status(500).json(new ApiError(500, "Login failed"));
   }
