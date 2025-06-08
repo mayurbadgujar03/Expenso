@@ -13,13 +13,19 @@ const registerUser = async (req, res) => {
   const { username, fullname, email, password } = req.body;
 
   if (!username || !fullname || !email || !password) {
-    throw new ApiError(400, "All fields are required");
+    return res
+      .status(400)
+      .json(
+        new ApiError(
+          400,
+          "All fields (username, fullname, email, password) are required",
+        ),
+      );
   }
-
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      throw new ApiError(400, "User already exist");
+      throw new ApiError(400, "User already exists with this email");
     }
 
     const user = await User.create({
@@ -29,16 +35,19 @@ const registerUser = async (req, res) => {
       password,
     });
     if (!user) {
-      throw new ApiError(400, "Network error - User not created");
+      throw new ApiError(
+        500,
+        "User creation failed due to network/database issue",
+      );
     }
 
     return res
-      .status(200)
-      .json(new ApiResponse(200, { message: "User stored successfully" }));
+      .status(201)
+      .json(
+        new ApiResponse(201, { userId: user._id }, "User stored successfully"),
+      );
   } catch (error) {
-    return res
-      .status(500)
-      .json(new ApiError(500, "User not stored successfully"));
+    return res.status(500).json(new ApiError(500, "Internal server error"));
   }
 };
 
@@ -46,7 +55,9 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new ApiError(400, "All fields are required");
+    return res
+      .status(400)
+      .json(new ApiError(400, "All fields (email and password) are required"));
   }
 
   try {
