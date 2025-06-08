@@ -5,6 +5,10 @@ import { ApiResponse } from "../utils/api-response.js";
 
 const profile = async (req, res) => {
   try {
+    if (!req.user?.id) {
+      throw new ApiError(401, "Unauthorized access");
+    }
+
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
