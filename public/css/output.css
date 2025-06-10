@@ -230,14 +230,29 @@
   .table {
     display: table;
   }
+  .h-64 {
+    height: calc(var(--spacing) * 64);
+  }
+  .h-74 {
+    height: calc(var(--spacing) * 74);
+  }
   .h-auto {
     height: auto;
   }
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-7 {
+    width: calc(var(--spacing) * 7);
+  }
   .w-64 {
     width: calc(var(--spacing) * 64);
+  }
+  .w-74 {
+    width: calc(var(--spacing) * 74);
+  }
+  .w-84 {
+    width: calc(var(--spacing) * 84);
   }
   .max-w-2xl {
     max-width: var(--container-2xl);
@@ -262,6 +277,9 @@
   }
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .flex-col {
     flex-direction: column;
@@ -365,14 +383,32 @@
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
   }
+  .px-16 {
+    padding-inline: calc(var(--spacing) * 16);
+  }
+  .px-26 {
+    padding-inline: calc(var(--spacing) * 26);
+  }
+  .px-60 {
+    padding-inline: calc(var(--spacing) * 60);
+  }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
   }
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
   }
+  .py-8 {
+    padding-block: calc(var(--spacing) * 8);
+  }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
+  }
+  .py-16 {
+    padding-block: calc(var(--spacing) * 16);
+  }
+  .py-26 {
+    padding-block: calc(var(--spacing) * 26);
   }
   .text-center {
     text-align: center;
@@ -512,6 +548,11 @@
       flex-direction: row;
     }
   }
+  .md\:px-12 {
+    @media (width >= 48rem) {
+      padding-inline: calc(var(--spacing) * 12);
+    }
+  }
   .md\:text-3xl {
     @media (width >= 48rem) {
       font-size: var(--text-3xl);
@@ -524,9 +565,19 @@
       line-height: var(--tw-leading, var(--text-5xl--line-height));
     }
   }
+  .lg\:grid-cols-2 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   .lg\:grid-cols-4 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .lg\:px-24 {
+    @media (width >= 64rem) {
+      padding-inline: calc(var(--spacing) * 24);
     }
   }
 }
