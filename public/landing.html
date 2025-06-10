@@ -1,12 +1,151 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/output.css" rel="stylesheet" />
-    <title>Expenso</title>
-</head>
-<body>
-    
-</body>
+    <title>Expenso – Track. Analyze. Save.</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Poppins", sans-serif;
+      }
+      .subtitle {
+        font-family: "Lora", serif;
+      }
+    </style>
+  </head>
+  <body class="text-dark-gray bg-light-gray">
+    <!-- Hero -->
+    <section
+      class="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
+    >
+      <div class="max-w-lg space-y-4">
+        <h1 class="text-4xl md:text-5xl font-bold">Track. Analyze. Save.</h1>
+        <p class="subtitle text-lg">
+          Expenso helps you stay on top of your spending with real-time stats
+          and clean dashboards.
+        </p>
+        <div class="flex space-x-4">
+          <a
+            href="/login"
+            class="px-6 py-3 bg-blue rounded-lg font-semibold hover:bg-blue/90 transition"
+            >Login</a
+          >
+          <a
+            href="/register"
+            class="px-6 py-3 bg-orange rounded-lg font-semibold hover:bg-orange/90 transition"
+            >Register</a
+          >
+        </div>
+      </div>
+      <!-- Optional hero image/illustration -->
+      <div class="mt-6 md:mt-0">
+        <!-- Replace with your SVG or IMG -->
+        <img
+          src="your-hero-illustration.svg"
+          alt="Expenso illustration"
+          class="w-64 h-auto"
+        />
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-gray-100 text-gray-800"
+    >
+      <div class="bg-white shadow-lg rounded-xl p-4 hover:shadow-xl transition">
+        <h3 class="text-xl font-bold mb-2">📊 Monthly & Daily Stats</h3>
+        <p class="text-sm text-gray-600">
+          Get insights on where your money goes every day and month.
+        </p>
+      </div>
+      <div class="bg-white shadow-lg rounded-xl p-4 hover:shadow-xl transition">
+        <h3 class="text-xl font-bold mb-2">🛒 Smart Purchase Logging</h3>
+        <p class="text-sm text-gray-600">
+          Log expenses like milk, bread, tiffin in seconds—no hassle.
+        </p>
+      </div>
+      <div class="bg-white shadow-lg rounded-xl p-4 hover:shadow-xl transition">
+        <h3 class="text-xl font-bold mb-2">🧾 Detailed Purchase History</h3>
+        <p class="text-sm text-gray-600">
+          Review what you bought, when, and at what cost—all in one place.
+        </p>
+      </div>
+      <div class="bg-white shadow-lg rounded-xl p-4 hover:shadow-xl transition">
+        <h3 class="text-xl font-bold mb-2">👤 Profile Management</h3>
+        <p class="text-sm text-gray-600">
+          Customize your profile and settings to suit your needs.
+        </p>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section
+      class="flex flex-col md:flex-row justify-around bg-white py-12 px-6 gap-8"
+    >
+      <div class="text-center space-y-2">
+        <div class="text-3xl font-bold text-blue">1</div>
+        <h3 class="font-semibold">Register / Login</h3>
+        <p class="text-sm text-gray-600">
+          Create an account or access your dashboard instantly.
+        </p>
+      </div>
+      <div class="text-center space-y-2">
+        <div class="text-3xl font-bold text-blue">2</div>
+        <h3 class="font-semibold">Add Purchases</h3>
+        <p class="text-sm text-gray-600">
+          Quickly log daily expenses — milk, tiffin, snacks.
+        </p>
+      </div>
+      <div class="text-center space-y-2">
+        <div class="text-3xl font-bold text-blue">3</div>
+        <h3 class="font-semibold">View Dashboard</h3>
+        <p class="text-sm text-gray-600">
+          See real-time stats and monthly trend insights.
+        </p>
+      </div>
+    </section>
+
+    <!-- Testimonials (Optional) -->
+    <section class="py-12 px-6 bg-gray-50">
+      <h2 class="text-2xl font-bold text-center mb-8">What Users Say</h2>
+      <div class="max-w-2xl mx-auto space-y-6">
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <p class="italic text-gray-800">
+            “Simple and clean. Helps me track food bills at the mess easily!”
+          </p>
+          <span class="block mt-4 font-semibold">— A happy user</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-6 px-6 border-t border-gray-200 text-gray-600">
+      <div
+        class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center"
+      >
+        <nav class="flex space-x-4 mb-4 md:mb-0">
+          <a href="/login" class="hover:text-gray-800">Login</a>
+          <a href="/register" class="hover:text-gray-800">Register</a>
+          <a
+            href="https://github.com/mayurbadgujar03/Expenso"
+            class="hover:text-gray-800"
+            >GitHub</a
+          >
+          <a href="/about" class="hover:text-gray-800">About</a>
+        </nav>
+        <p class="text-sm">&copy; 2025 Expenso. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>
