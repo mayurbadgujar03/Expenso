@@ -9,7 +9,6 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -30,27 +29,28 @@
       class="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
     >
       <div class="max-w-lg space-y-4">
-        <h1 class="text-4xl md:text-5xl font-bold">Track. Analyze. Save.</h1>
-        <p class="subtitle text-lg">
+        <h1 class="text-white text-4xl md:text-5xl font-bold">
+          Track. Analyze. Save.
+        </h1>
+        <p class="text-gray-100 subtitle text-lg">
           Expenso helps you stay on top of your spending with real-time stats
           and clean dashboards.
         </p>
         <div class="flex space-x-4">
           <a
             href="/login"
-            class="px-6 py-3 bg-blue rounded-lg font-semibold hover:bg-blue/90 transition"
+            class="px-6 py-3 bg-[#007bff] text-white rounded-lg font-semibold hover:bg-[#0069d9] transition"
             >Login</a
           >
           <a
             href="/register"
-            class="px-6 py-3 bg-orange rounded-lg font-semibold hover:bg-orange/90 transition"
+            class="px-6 py-3 bg-[#fd7e14] text-white rounded-lg font-semibold hover:bg-orange-600 transition"
             >Register</a
           >
         </div>
       </div>
       <!-- Optional hero image/illustration -->
       <div class="mt-6 md:mt-0">
-        <!-- Replace with your SVG or IMG -->
         <img
           src="your-hero-illustration.svg"
           alt="Expenso illustration"
@@ -90,41 +90,73 @@
     </section>
 
     <!-- How It Works -->
-    <section
-      class="flex flex-col md:flex-row justify-around bg-white py-12 px-6 gap-8"
-    >
-      <div class="text-center space-y-2">
-        <div class="text-3xl font-bold text-blue">1</div>
-        <h3 class="font-semibold">Register / Login</h3>
-        <p class="text-sm text-gray-600">
-          Create an account or access your dashboard instantly.
-        </p>
-      </div>
-      <div class="text-center space-y-2">
-        <div class="text-3xl font-bold text-blue">2</div>
-        <h3 class="font-semibold">Add Purchases</h3>
-        <p class="text-sm text-gray-600">
-          Quickly log daily expenses — milk, tiffin, snacks.
-        </p>
-      </div>
-      <div class="text-center space-y-2">
-        <div class="text-3xl font-bold text-blue">3</div>
-        <h3 class="font-semibold">View Dashboard</h3>
-        <p class="text-sm text-gray-600">
-          See real-time stats and monthly trend insights.
-        </p>
+    <section class="bg-white py-12 px-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-center mb-10 text-gray-800"
+      >
+        How It Works
+      </h2>
+      <div class="flex flex-col md:flex-row justify-around gap-8">
+        <div class="text-center space-y-2">
+          <div class="text-3xl font-bold text-[#007bff]">1</div>
+          <h3 class="font-semibold">Register / Login</h3>
+          <p class="text-sm text-gray-600">
+            Create an account or access your dashboard instantly.
+          </p>
+        </div>
+        <div class="text-center space-y-2">
+          <div class="text-3xl font-bold text-[#007bff]">2</div>
+          <h3 class="font-semibold">Add Purchases</h3>
+          <p class="text-sm text-gray-600">
+            Quickly log daily expenses — milk, tiffin, snacks.
+          </p>
+        </div>
+        <div class="text-center space-y-2">
+          <div class="text-3xl font-bold text-[#007bff]">3</div>
+          <h3 class="font-semibold">View Dashboard</h3>
+          <p class="text-sm text-gray-600">
+            See real-time stats and monthly trend insights.
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- Testimonials (Optional) -->
     <section class="py-12 px-6 bg-gray-50">
       <h2 class="text-2xl font-bold text-center mb-8">What Users Say</h2>
-      <div class="max-w-2xl mx-auto space-y-6">
-        <div class="bg-white shadow-md rounded-lg p-6">
-          <p class="italic text-gray-800">
-            “Simple and clean. Helps me track food bills at the mess easily!”
-          </p>
-          <span class="block mt-4 font-semibold">— A happy user</span>
+
+      <div class="relative max-w-2xl mx-auto overflow-hidden rounded-lg">
+        <div
+          id="slides"
+          class="flex transition-transform duration-700 ease-in-out"
+        >
+          <!-- Slides (originals + clones) -->
+          <div class="min-w-full bg-white shadow-md rounded-lg p-6">
+            <p class="italic text-gray-800">
+              “Simple and clean. Helps me track food bills at the mess easily!”
+            </p>
+            <span class="block mt-4 font-semibold">— A happy user</span>
+          </div>
+          <div class="min-w-full bg-white shadow-md rounded-lg p-6">
+            <p class="italic text-gray-800">
+              “My parents can finally monitor my hostel spending. Super
+              helpful!”
+            </p>
+            <span class="block mt-4 font-semibold">— A student user</span>
+          </div>
+          <div class="min-w-full bg-white shadow-md rounded-lg p-6">
+            <p class="italic text-gray-800">
+              “Dashboard is intuitive and quick. Love the stats view!”
+            </p>
+            <span class="block mt-4 font-semibold">— PG student</span>
+          </div>
+          <!-- Clones for smooth looping -->
+          <div class="min-w-full bg-white shadow-md rounded-lg p-6">
+            <p class="italic text-gray-800">
+              “Simple and clean. Helps me track food bills at the mess easily!”
+            </p>
+            <span class="block mt-4 font-semibold">— A happy user</span>
+          </div>
         </div>
       </div>
     </section>
@@ -147,5 +179,27 @@
         <p class="text-sm">&copy; 2025 Expenso. All rights reserved.</p>
       </div>
     </footer>
+
+    <script>
+      const slides = document.getElementById("slides");
+      const slideCount = slides.children.length;
+      let currentSlide = 0;
+
+      function moveSlides() {
+        currentSlide++;
+        slides.style.transition = "transform 0.7s ease-in-out";
+        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        if (currentSlide === slideCount - 1) {
+          setTimeout(() => {
+            slides.style.transition = "none";
+            slides.style.transform = `translateX(0)`;
+            currentSlide = 0;
+          }, 700); // must match the transition duration
+        }
+      }
+
+      setInterval(moveSlides, 4000);
+    </script>
   </body>
 </html>
