@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,14 +18,18 @@
       }
     </style>
   </head>
-  <body class="min-h-screen bg-light-gray flex items-center justify-center px-4">
+  <body
+    class="min-h-screen bg-light-gray flex items-center justify-center px-4"
+  >
     <div class="bg-white shadow-xl rounded-2xl p-8 md:p-12 w-full max-w-md">
       <h1 class="text-3xl font-bold text-center text-purple-600 mb-6">
         Create Your Expenso Account
       </h1>
-      <form action="/register" method="POST" class="space-y-5">
+      <form id="registerForm" class="space-y-5">
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username</label
+          >
           <input
             type="text"
             id="username"
@@ -36,7 +40,9 @@
           />
         </div>
         <div>
-          <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+          <label for="fullname" class="block text-sm font-medium text-gray-700"
+            >Full Name</label
+          >
           <input
             type="text"
             id="fullname"
@@ -47,7 +53,9 @@
           />
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email</label
+          >
           <input
             type="email"
             id="email"
@@ -58,7 +66,9 @@
           />
         </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
           <input
             type="password"
             id="password"
@@ -84,5 +94,7 @@
         </a>
       </p>
     </div>
+
+    <script src="./js/register.js"></script>
   </body>
 </html>
