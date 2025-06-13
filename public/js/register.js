@@ -4,14 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    console.log("working")
     const username = document.getElementById("username").value;
     const fullname = document.getElementById("fullname").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    console.log({ username, fullname, email, password });
-    
     try {
       const res = await fetch("/api/v1/users/register", {
         method: "POST",
@@ -22,11 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await res.json();
-
       if (!res.ok) {
         alert(`Error: ${data.message || "Registration failed"}`);
         return;
       }
+      document.getElementById("username").value = "";
+      document.getElementById("fullname").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("password").value = "";
 
       alert("Registered successfully!");
       window.location.href = "login.html";
