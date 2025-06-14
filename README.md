@@ -62,7 +62,7 @@ cd expenso
 npm install
 
 # Run the server (development)
-npm run dev
+npm run start
 ```
 
 ---
