@@ -4,10 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
+    console.log("click")
+
+    const username = document.getElementById("username").value.trim();
     const fullname = document.getElementById("fullname").value;
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
+
+    const submitBtn = form.querySelector("button[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Registering...";
 
     try {
       const res = await fetch("/api/v1/users/register", {
@@ -33,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       alert("❌ Something went wrong. Try again.");
       console.error(err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Register";
     }
   });
 });
