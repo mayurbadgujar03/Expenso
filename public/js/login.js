@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("email").value = "";
       document.getElementById("password").value = "";
 
-      alert("Loged in successfully!");
+      alert("Logged in successfully!");
       window.location.href = "dashboard.html";
     } catch (err) {
       alert("❌ Something went wrong. Try again.");

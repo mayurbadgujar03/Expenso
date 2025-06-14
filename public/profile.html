@@ -47,7 +47,8 @@
         📜
       </a>
       <a
-        class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center mt-auto mb-10"
+        
+        class="logoutBtn w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center mt-auto mb-10"
         title="Logout"
       >
         ⏻
@@ -69,13 +70,13 @@
             👤
           </div>
           <div class="text-left space-y-1">
-            <p class="text-xl font-semibold text-gray-800">@yourusername</p>
-            <p class="text-gray-700 text-sm">yourname@email.com</p>
+            <p id="username" class="text-xl font-semibold text-gray-800"></p>
+            <p id="email" class="text-gray-700 text-sm"></p>
           </div>
         </div>
 
         <!-- Full Name -->
-        <p class="text-lg text-gray-800 mt-6">Your Full Name</p>
+        <p id="fullname" class="text-lg text-gray-800 mt-6"></p>
       </div>
     </main>
 
@@ -98,13 +99,15 @@
         📜
       </a>
       <a
-        class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 mt-auto"
+        
+        class="logoutBtn w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 mt-auto"
         title="Logout"
       >
         ⏻
       </a>
     </nav>
 
+    <script src="./js/profile.js"></script>
     <script>
       const menuBtn = document.getElementById("menuBtn");
       const mobileNav = document.getElementById("mobileNav");
