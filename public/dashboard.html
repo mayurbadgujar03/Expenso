@@ -70,7 +70,7 @@
               class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#007bff] text-sm"
             />
             <button
-              class="bg-[#007bff] text-white px-4 py-2 rounded-lg text-sm"
+              class="openAddItemModal bg-[#007bff] text-white px-4 py-2 rounded-lg text-sm"
             >
               Add Item
             </button>
@@ -85,7 +85,7 @@
             class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#007bff] text-sm"
           />
           <button
-            class="bg-[#007bff] text-white px-4 py-2 rounded-lg text-sm w-fit self-end"
+            class="openAddItemModal bg-[#007bff] text-white px-4 py-2 rounded-lg text-sm w-fit self-end"
           >
             Add Item
           </button>
@@ -125,7 +125,7 @@
           class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"
         >
           <!-- Item Card -->
-          
+
           <!-- Add more cards here... -->
         </div>
       </div>
@@ -155,6 +155,65 @@
       </button>
     </nav>
 
+    <!-- Overlay -->
+    <div
+      id="addItemModal"
+      class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-purple-600">Add New Item</h2>
+          <button
+            id="closeModalBtn"
+            class="text-gray-500 hover:text-red-500 text-2xl leading-none"
+          >
+            ×
+          </button>
+        </div>
+        <form id="addItemForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Item Name</label
+            >
+            <input
+              type="text"
+              name="name"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              placeholder="Enter item name"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Price</label>
+            <input
+              type="number"
+              name="price"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              placeholder="Enter price"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Image URL</label
+            >
+            <input
+              type="url"
+              name="image"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-[#007bff] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+          >
+            Add Item
+          </button>
+        </form>
+      </div>
+    </div>
+
     <!-- JS for Mobile Nav -->
     <script src="./js/dashboard.js"></script>
     <script>
@@ -165,6 +224,41 @@
       menuBtn.addEventListener("click", () => {
         isOpen = !isOpen;
         mobileNav.style.width = isOpen ? "180px" : "0";
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const openModalBtn = document.querySelectorAll(".openAddItemModal");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const modal = document.getElementById("addItemModal");
+
+        // Open Modal
+        openModalBtn?.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            modal.classList.remove("hidden");
+          });
+        });
+
+        // Close Modal on close button
+        closeModalBtn?.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+
+        // Close Modal on background click
+        modal?.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.classList.add("hidden");
+          }
+        });
+
+        // Optional: handle form submission
+        const form = document.getElementById("addItemForm");
+        form?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          // handle your fetch logic here
+          alert("Item added (frontend only for now)");
+          form.reset();
+          modal.classList.add("hidden");
+        });
       });
     </script>
   </body>
