@@ -40,20 +40,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
     <div class="flex justify-center items-center gap-3 mt-4">
       <button
-        class="w-7 h-7 md:w-8 md:h-8 bg-gray-200 rounded-full text-gray-700 text-lg"
+        class="decrement w-7 h-7 md:w-8 md:h-8 bg-gray-200 rounded-full text-gray-700 text-lg"
       >
         -
       </button>
-      <span class="text-base md:text-lg">1</span>
+      <span class="quantity text-base md:text-lg">1</span>
       <button
-        class="w-7 h-7 md:w-8 md:h-8 bg-gray-200 rounded-full text-gray-700 text-lg"
+        class="increment w-7 h-7 md:w-8 md:h-8 bg-gray-200 rounded-full text-gray-700 text-lg"
       >
         +
       </button>
     </div>
     <div class="flex justify-between items-center mt-4">
       <span
-        class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs md:text-sm"
+        class="price bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs md:text-sm"
       >
         ₹${item.price}
       </span>
@@ -64,6 +64,32 @@ document.addEventListener("DOMContentLoaded", async () => {
       </button>
     </div>
   `;
+
+      const incrementBtn = card.querySelector(".increment");
+      const decrementBtn = card.querySelector(".decrement");
+      const quantitySpan = card.querySelector(".quantity");
+      const priceSpan = card.querySelector(".price");
+
+      let quantity = 1;
+      const basePrice = item.price;
+
+      function updateDisplay() {
+        quantitySpan.textContent = quantity;
+        const totalPrice = basePrice * quantity;
+        priceSpan.textContent = `₹${totalPrice}`;
+      }
+
+      incrementBtn.addEventListener("click", () => {
+        quantity++;
+        updateDisplay();
+      });
+
+      decrementBtn.addEventListener("click", () => {
+        if (quantity > 1) {
+          quantity--;
+          updateDisplay();
+        }
+      });
 
       container.appendChild(card);
     });

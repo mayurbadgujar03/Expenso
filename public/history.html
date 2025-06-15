@@ -45,7 +45,7 @@
         >👤</a
       >
       <button
-        class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center mt-auto mb-10"
+        class="logoutBtn w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center mt-auto mb-10"
         title="Logout"
       >
         ⏻
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="space-y-4">
+      <div id="listContainer" class="space-y-4">
         <!-- Example Item -->
 
         <div
@@ -89,124 +89,7 @@
             <!-- Icon / Image -->
             <div class="bg-gray-100 p-3 rounded-xl">
               <img
-                src="./assets/milk.png"
-                alt="Milk"
-                class="w-10 h-10 object-contain"
-              />
-            </div>
-
-            <!-- Textual Info -->
-            <div>
-              <h2 class="text-base font-medium text-gray-900">Milk</h2>
-              <p class="text-sm text-gray-400">10 June 2025</p>
-
-              <div class="flex gap-2 mt-1">
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  ₹30
-                </span>
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  Qty: 2
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total on Right -->
-          <div class="text-right">
-            <p class="text-base font-semibold text-gray-800">₹60</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition justify-between border border-gray-100"
-        >
-          <!-- Left Section -->
-          <div class="flex items-center gap-4">
-            <!-- Icon / Image -->
-            <div class="bg-gray-100 p-3 rounded-xl">
-              <img
-                src="./assets/milk.png"
-                alt="Milk"
-                class="w-10 h-10 object-contain"
-              />
-            </div>
-
-            <!-- Textual Info -->
-            <div>
-              <h2 class="text-base font-medium text-gray-900">Milk</h2>
-              <p class="text-sm text-gray-400">10 June 2025</p>
-
-              <div class="flex gap-2 mt-1">
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  ₹30
-                </span>
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  Qty: 2
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total on Right -->
-          <div class="text-right">
-            <p class="text-base font-semibold text-gray-800">₹60</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition justify-between border border-gray-100"
-        >
-          <!-- Left Section -->
-          <div class="flex items-center gap-4">
-            <!-- Icon / Image -->
-            <div class="bg-gray-100 p-3 rounded-xl">
-              <img
-                src="./assets/milk.png"
-                alt="Milk"
-                class="w-10 h-10 object-contain"
-              />
-            </div>
-
-            <!-- Textual Info -->
-            <div>
-              <h2 class="text-base font-medium text-gray-900">Milk</h2>
-              <p class="text-sm text-gray-400">10 June 2025</p>
-
-              <div class="flex gap-2 mt-1">
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  ₹30
-                </span>
-                <span
-                  class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700"
-                >
-                  Qty: 2
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total on Right -->
-          <div class="text-right">
-            <p class="text-base font-semibold text-gray-800">₹60</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition justify-between border border-gray-100"
-        >
-          <!-- Left Section -->
-          <div class="flex items-center gap-4">
-            <!-- Icon / Image -->
-            <div class="bg-gray-100 p-3 rounded-xl">
-              <img
-                src="./assets/milk.png"
+                src=""
                 alt="Milk"
                 class="w-10 h-10 object-contain"
               />
@@ -261,7 +144,7 @@
         >👤</a
       >
       <button
-        class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 mt-auto"
+        class="logoutBtn not-last:w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 mt-auto"
         title="Logout"
       >
         ⏻
@@ -269,6 +152,7 @@
     </nav>
 
     <!-- JS for Mobile Nav -->
+     <script src="./js/history.js"></script>
     <script>
       const menuBtn = document.getElementById("menuBtn");
       const mobileNav = document.getElementById("mobileNav");

@@ -25,9 +25,7 @@ const history = async (req, res) => {
     }
 
     console.error("Unexpected error:", error);
-    return res
-      .status(500)
-      .json(new ApiError(500, "Purchase not done properly"));
+    return res.status(500).json(new ApiError(500, "Purchase not done yet"));
   }
 };
 
