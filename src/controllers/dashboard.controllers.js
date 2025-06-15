@@ -28,6 +28,13 @@ const createItem = async (req, res) => {
       throw new ApiError(400, "Item with this name already exists");
     }
 
+    if (typeof image === "string") {
+      image = {
+        url: image,
+        localpath: "",
+      };
+    }
+
     const item = await Items.create({
       createdBy: user._id,
       name: normalizedName,

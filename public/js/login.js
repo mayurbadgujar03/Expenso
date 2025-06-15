@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    console.log("working");
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;

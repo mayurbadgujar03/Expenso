@@ -176,6 +176,7 @@
               >Item Name</label
             >
             <input
+              id="newItemName"
               type="text"
               name="name"
               required
@@ -186,6 +187,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700">Price</label>
             <input
+              id="newItemPrice"
               type="number"
               name="price"
               required
@@ -198,6 +200,7 @@
               >Image URL</label
             >
             <input
+              id="newItemImageURL"
               type="url"
               name="image"
               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
@@ -214,7 +217,6 @@
       </div>
     </div>
 
-    <!-- JS for Mobile Nav -->
     <script src="./js/dashboard.js"></script>
     <script>
       const menuBtn = document.getElementById("menuBtn");
@@ -231,33 +233,20 @@
         const closeModalBtn = document.getElementById("closeModalBtn");
         const modal = document.getElementById("addItemModal");
 
-        // Open Modal
         openModalBtn?.forEach((btn) => {
           btn.addEventListener("click", () => {
             modal.classList.remove("hidden");
           });
         });
 
-        // Close Modal on close button
         closeModalBtn?.addEventListener("click", () => {
           modal.classList.add("hidden");
         });
 
-        // Close Modal on background click
         modal?.addEventListener("click", (e) => {
           if (e.target === modal) {
             modal.classList.add("hidden");
           }
-        });
-
-        // Optional: handle form submission
-        const form = document.getElementById("addItemForm");
-        form?.addEventListener("submit", (e) => {
-          e.preventDefault();
-          // handle your fetch logic here
-          alert("Item added (frontend only for now)");
-          form.reset();
-          modal.classList.add("hidden");
         });
       });
     </script>

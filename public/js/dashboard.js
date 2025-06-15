@@ -71,4 +71,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Fetch error:", error);
     alert("Couldn't fetch user data");
   }
+
+  const form = document.getElementById("addItemForm");
+  const modal = document.getElementById("addItemModal");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const newItemName = document.getElementById("newItemName").value;
+    const newItemPrice = document.getElementById("newItemPrice").value;
+    const newItemImageURL = document.getElementById("newItemImageURL").value;
+
+    console.log({
+      name: newItemName,
+      price: newItemPrice,
+      image: {
+        url: newItemImageURL,
+        localpath: "",
+      },
+    });
+    try {
+      const res = await fetch("/api/v1/dashboard/items/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newItemName,
+          price: newItemPrice,
+          image: {
+            url: newItemImageURL,
+            localpath: "",
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Error: ${data.message || "Failed to add item"}`);
+        return;
+      }
+      alert("Item added (frontend only for now)");
+      form.reset();
+      modal.classList.add("hidden");
+      window.location.reload();
+    } catch (err) {
+      alert("❌ Something went wrong. Try again.");
+      console.error(err);
+    }
+  });
 });
