@@ -241,11 +241,17 @@
 
         closeModalBtn?.addEventListener("click", () => {
           modal.classList.add("hidden");
+          document.getElementById("newItemName").value = "";
+          document.getElementById("newItemPrice").value = "";
+          document.getElementById("newItemImageURL").value = "";
         });
 
         modal?.addEventListener("click", (e) => {
           if (e.target === modal) {
             modal.classList.add("hidden");
+            document.getElementById("newItemName").value = "";
+            document.getElementById("newItemPrice").value = "";
+            document.getElementById("newItemImageURL").value = "";
           }
         });
       });

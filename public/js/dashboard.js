@@ -50,25 +50,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       >
         +
       </button>
-    </div>
-    <div class="flex justify-between items-center mt-4">
-      <span
-        class="price bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs md:text-sm"
-      >
-        ₹${item.price}
+      </div>
+      <div class="flex justify-between items-center mt-4">
+      <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs md:text-sm">
+         ₹<span class="price">${item.price}
       </span>
-      <button
-        class="bg-green-500 text-white px-3 py-1.5 rounded-full text-xs md:text-sm"
-      >
+      </span>
+      <button class="buy-btn bg-green-500 text-white px-3 py-1.5 rounded-full text-xs md:text-sm">
         Buy
       </button>
-    </div>
-  `;
+    </div>`;
 
       const incrementBtn = card.querySelector(".increment");
       const decrementBtn = card.querySelector(".decrement");
       const quantitySpan = card.querySelector(".quantity");
       const priceSpan = card.querySelector(".price");
+
+      const buyButton = card.querySelector(".buy-btn");
+      buyButton.addEventListener("click", () => purchaseConfirmation(card));
 
       let quantity = 1;
       const basePrice = item.price;
@@ -76,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       function updateDisplay() {
         quantitySpan.textContent = quantity;
         const totalPrice = basePrice * quantity;
-        priceSpan.textContent = `₹${totalPrice}`;
+        priceSpan.textContent = `${totalPrice}`;
       }
 
       incrementBtn.addEventListener("click", () => {
@@ -108,14 +107,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const newItemPrice = document.getElementById("newItemPrice").value;
     const newItemImageURL = document.getElementById("newItemImageURL").value;
 
-    console.log({
-      name: newItemName,
-      price: newItemPrice,
-      image: {
-        url: newItemImageURL,
-        localpath: "",
-      },
-    });
     try {
       const res = await fetch("/api/v1/dashboard/items/create", {
         method: "POST",
@@ -137,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         alert(`Error: ${data.message || "Failed to add item"}`);
         return;
       }
-      alert("Item added (frontend only for now)");
+      alert("Item added");
       form.reset();
       modal.classList.add("hidden");
       window.location.reload();
@@ -147,8 +138,97 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  const logoutBtn = document.querySelectorAll(".logoutBtn");
+  function purchaseConfirmation(card) {
+    const itemName = card.querySelector("h3").innerText;
+    const itemPrice = card.querySelector(".price").innerText;
+    const quantity = card.querySelector(".quantity").innerText;
+    const id = card.getAttribute("id");
 
+    const modal = document.createElement("div");
+    modal.id = "confirmationModal";
+    modal.className =
+      "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+
+    // Modal inner content
+    modal.innerHTML = `
+    <div class="bg-white rounded-2xl shadow-2xl w-[90%] max-w-md p-8 border-t-8 border-[#007bff] space-y-6">
+  <!-- Title -->
+  <div>
+    <h2 class="text-2xl font-bold text-purple-600 text-center">Confirm Purchase</h2>
+  </div>
+
+  <!-- Message -->
+  <div class="text-center text-gray-700 text-base leading-relaxed" id="confirmationMessage">
+    Are you sure you want to buy <strong class="text-gray-900">${itemName}</strong> at 
+    <strong class="text-green-600">₹${itemPrice}</strong> with quantity 
+    <strong class="text-blue-600">${quantity}</strong>?
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-center gap-4 pt-2">
+    <button
+      id="cancelConfirmation"
+      class="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition"
+    >
+      Cancel
+    </button>
+    <button
+      id="confirmPurchaseBtn"
+      class="px-6 py-2 rounded-lg bg-[#007bff] text-white font-semibold hover:bg-blue-600 transition"
+    >
+      Yes, Confirm
+    </button>
+  </div>
+</div>
+
+  `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById("cancelConfirmation").onclick = () => {
+      modal.remove();
+    };
+
+    document.getElementById("confirmPurchaseBtn").onclick = () => {
+      onConfirm(quantity, id, itemPrice);
+      modal.remove();
+    };
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.remove();
+    });
+  }
+
+  const onConfirm = async (quantity, id, itemPrice) => {
+     const price = Number(itemPrice);
+    try {
+      const res = await fetch("/api/v1/user/dashboard/purchase/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quantity,
+          total_price: price,
+          item_id: id,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Error: ${data.message || "Purchase failed"}`);
+        return;
+      }
+
+      alert("Purchased successfully!");
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      alert("❌ Something went wrong. Try again.");
+      console.error(err);
+    }
+  };
+
+  const logoutBtn = document.querySelectorAll(".logoutBtn");
   logoutBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
