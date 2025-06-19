@@ -6,19 +6,12 @@ const app = express();
 
 //router imports
 
-import userRegister from "./routes/auth.routes.js";
-import loginUser from "./routes/auth.routes.js";
-import logoutUser from "./routes/auth.routes.js";
-
-import createItem from "./routes/dashboard.routes.js";
+import userAuth from "./routes/auth.routes.js";
 import dashboard from "./routes/dashboard.routes.js";
-import confirm from "./routes/dashboard.routes.js";
-
 import profile from "./routes/profile.routes.js";
-
 import history from "./routes/history.routes.js";
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -31,16 +24,9 @@ app.use(
   }),
 );
 
-app.use("/api/v1/users", userRegister);
-app.use("/api/v1/users", loginUser);
-app.use("/api/v1/user", logoutUser);
-
-app.use("/api/v1/dashboard", createItem);
-app.use("/api/v1/user", dashboard);
-app.use("/api/v1/user", confirm);
-
+app.use("/api/v1/users", userAuth);
+app.use("/api/v1/dashboard", dashboard);
 app.use("/api/v1/user", profile);
-
 app.use("/api/v1/user", history);
 
 export default app;
