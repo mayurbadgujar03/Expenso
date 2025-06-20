@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const newItemImageURL = document.getElementById("newItemImageURL").value;
 
     try {
-      const res = await fetch("/api/v1/dashboard/items/create", {
+      const res = await fetch("/api/v1/user/dashboard/item/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

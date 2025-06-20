@@ -25,7 +25,7 @@ app.use(
 );
 
 app.use("/api/v1/users", userAuth);
-app.use("/api/v1/dashboard", dashboard);
+app.use("/api/v1/user", dashboard);
 app.use("/api/v1/user", profile);
 app.use("/api/v1/user", history);
 
