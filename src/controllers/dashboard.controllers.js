@@ -188,4 +188,43 @@ const confirm = async (req, res) => {
   }
 };
 
-export { createItem, dashboard, confirm };
+const updatePrice = async (req, res) => {
+  const { price } = req.body;
+  const { item_id } = req.params;
+
+  console.log(typeof item_id)
+
+  if (!price || !item_id) {
+    return res.status(400).json(new ApiError(400, "Data not passed correctly"));
+  }
+
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      throw new ApiError(401, "Session expired, please login again");
+    }
+
+    const item = await Items.findById(item_id);
+    if (!item) {
+      throw new ApiError(404, "Item not found");
+    }
+
+    item.price = price;
+    await item.save();
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, item, "Price updated successfully"));
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    }
+
+    console.error("Unexpected error:", error);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Price not changed properly"));
+  }
+};
+
+export { createItem, dashboard, confirm, updatePrice };
