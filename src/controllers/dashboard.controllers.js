@@ -20,10 +20,22 @@ const createItem = async (req, res) => {
 
     const normalizedName = name.toLowerCase().trim();
 
+    const existingDeletedItem = await Items.findOne({
+      createdBy: user._id,
+      name: normalizedName,
+      deleted: true,
+    });
     const existingItem = await Items.findOne({
       createdBy: user._id,
       name: normalizedName,
     });
+    if (existingDeletedItem) {
+      existingDeletedItem.deleted = false;
+      await existingDeletedItem.save();
+      return res
+        .status(201)
+        .json(new ApiResponse(201, existingDeletedItem, "Item stored successfully"));
+    }
     if (existingItem) {
       throw new ApiError(400, "Item with this name already exists");
     }
@@ -88,7 +100,7 @@ const dashboard = async (req, res) => {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const items = await Items.find({ createdBy: user._id });
+    const items = await Items.find({ createdBy: user._id, deleted: false });
     const monthlyPurchasedItems = await Purchase.find({
       createdBy: user._id,
       createdAt: {
@@ -169,6 +181,7 @@ const confirm = async (req, res) => {
     const purchase = await Purchase.create({
       createdBy: user._id,
       item: item._id,
+      currentPrice: item.price,
       quantity,
       total_price,
     });
@@ -191,37 +204,37 @@ const confirm = async (req, res) => {
 const updatePrice = async (req, res) => {
   const { price } = req.body;
   const { item_id } = req.params;
-  
+
   if (!price || !item_id) {
     return res.status(400).json(new ApiError(400, "Data not passed correctly"));
   }
-  
+
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
-    
+
     const item = await Items.findById(item_id);
     if (!item) {
       throw new ApiError(404, "Item not found");
     }
-    
+
     item.price = price;
     await item.save();
-    
+
     return res
-    .status(200)
-    .json(new ApiResponse(200, item, "Price updated successfully"));
+      .status(200)
+      .json(new ApiResponse(200, item, "Price updated successfully"));
   } catch (error) {
     if (error instanceof ApiError) {
       return res.status(error.statusCode).json(error);
     }
-    
+
     console.error("Unexpected error:", error);
     return res
-    .status(500)
-    .json(new ApiError(500, "Price not changed properly"));
+      .status(500)
+      .json(new ApiError(500, "Price not changed properly"));
   }
 };
 
@@ -243,7 +256,8 @@ const deleteItem = async (req, res) => {
       throw new ApiError(404, "Item not found");
     }
 
-    await item.deleteOne();
+    item.deleted = true;
+    await item.save();
 
     return res
       .status(200)
@@ -254,9 +268,7 @@ const deleteItem = async (req, res) => {
     }
 
     console.error("Unexpected error:", error);
-    return res
-      .status(500)
-      .json(new ApiError(500, "Not deleted properly"));
+    return res.status(500).json(new ApiError(500, "Not deleted properly"));
   }
 };
 

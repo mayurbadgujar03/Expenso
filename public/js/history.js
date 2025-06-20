@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               <p class="text-sm text-gray-400">${formattedDate}</p>
               <div class="flex gap-2 mt-1">
                 <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700">
-                  ₹${item.price}
+                  ₹${entry.currentPrice}
                 </span>
                 <span class="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-700">
                   Qty: ${entry.quantity}

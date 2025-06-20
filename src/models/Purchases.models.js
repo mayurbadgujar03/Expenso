@@ -20,6 +20,10 @@ const purchaseSchema = new Schema(
       type: Number,
       required: true,
     },
+    currentPrice: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -25,6 +25,10 @@ const itemSchema = new Schema(
         localpath: "",
       },
     },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
