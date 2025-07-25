@@ -6,6 +6,7 @@ const app = express();
 
 //router imports
 
+import healthCheck from "./routes/healthcheck.routes.js";
 import userAuth from "./routes/auth.routes.js";
 import dashboard from "./routes/dashboard.routes.js";
 import profile from "./routes/profile.routes.js";
@@ -24,6 +25,7 @@ app.use(
   }),
 );
 
+app.use("/api/v1/healthcheck", healthCheck)
 app.use("/api/v1/users", userAuth);
 app.use("/api/v1/user", dashboard);
 app.use("/api/v1/user", profile);
