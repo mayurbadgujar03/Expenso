@@ -22,9 +22,13 @@ const registerUser = async (req, res) => {
       );
   }
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const existingUserEmail = await User.findOne({ email });
+    if (existingUserEmail) {
       throw new ApiError(400, "User already exists with this email");
+    }
+    const existingUserUsername = await User.findOne({ username });
+    if (existingUserUsername) {
+      throw new ApiError(400, "User already exists with this username");
     }
 
     const user = await User.create({

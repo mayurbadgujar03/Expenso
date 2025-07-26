@@ -21,6 +21,7 @@ const userRegistrationValidator = () => {
       .withMessage("Username can only contain letters and numbers"),
 
     body("password")
+      .trim()
       .notEmpty()
       .withMessage("Password is required")
       .isLength({ min: 6 })
@@ -60,11 +61,7 @@ const userLoginValidator = () => {
       .withMessage(
         "Password must contain at least one special character (@$!%*?&#)",
       ),
-    body("email")
-      .notEmpty()
-      .withMessage("Password is required")
-      .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 characters long"),
+    body("email").notEmpty().withMessage("Email is required").isEmail(),
   ];
 };
 
