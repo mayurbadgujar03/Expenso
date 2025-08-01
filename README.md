@@ -40,6 +40,15 @@
 - ✅ Modular Folder Structure (MVC)
 
 ---
+## 📸 Screenshots
+
+![Screenshot 1](assets/1.jpg)
+![Screenshot 2](assets/2.jpg)
+![Screenshot 3](assets/3.jpg)
+![Screenshot 4](assets/4.jpg)
+![Screenshot 5](assets/5.jpg)
+![Screenshot 6](assets/6.jpg)
+---
 
 ## 📘 Devlogs
 
