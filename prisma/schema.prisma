@@ -6,3 +6,13 @@ datasource db {
   provider = "postgresql"
   url      = env("NEON_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  fullname  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
