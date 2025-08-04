@@ -1,7 +1,10 @@
 import { User } from "../models/Users.models.js";
+import { PrismaClient } from "@prisma/client";
 
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
+
+const prisma = new PrismaClient();
 
 const profile = async (req, res) => {
   try {
@@ -9,7 +12,17 @@ const profile = async (req, res) => {
       throw new ApiError(401, "Unauthorized access");
     }
 
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        username: true,
+        fullname: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
 
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
