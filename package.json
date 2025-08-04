@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.13.0",
     "@tailwindcss/cli": "^4.1.8",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "prettier": "3.5.3"
+    "prettier": "3.5.3",
+    "prisma": "^6.13.0"
   }
 }
