@@ -1,4 +1,3 @@
-import { User } from "../models/Users.models.js";
 import { PrismaClient } from "@prisma/client";
 
 import { ApiError } from "../utils/api-error.js";

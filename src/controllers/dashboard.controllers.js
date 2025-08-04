@@ -1,6 +1,3 @@
-import { User } from "../models/Users.models.js";
-import { Items } from "../models/Items.models.js";
-import { Purchase } from "../models/Purchases.models.js";
 import { PrismaClient } from "@prisma/client";
 
 import { ApiError } from "../utils/api-error.js";
