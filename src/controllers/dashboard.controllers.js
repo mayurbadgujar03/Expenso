@@ -1,9 +1,12 @@
 import { User } from "../models/Users.models.js";
 import { Items } from "../models/Items.models.js";
 import { Purchase } from "../models/Purchases.models.js";
+import { PrismaClient } from "@prisma/client";
 
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
+
+const prisma = new PrismaClient();
 
 const createItem = async (req, res) => {
   let { name, price, image } = req.body;
@@ -13,28 +16,39 @@ const createItem = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+    });
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
 
     const normalizedName = name.toLowerCase().trim();
 
-    const existingDeletedItem = await Items.findOne({
-      createdBy: user._id,
-      name: normalizedName,
-      deleted: true,
+    const existingDeletedItem = await prisma.item.findFirst({
+      where: {
+        createdById: user.id,
+        name: normalizedName,
+        deleted: true,
+      },
     });
-    const existingItem = await Items.findOne({
-      createdBy: user._id,
-      name: normalizedName,
+
+    const existingItem = await prisma.item.findFirst({
+      where: {
+        createdById: user.id,
+        name: normalizedName,
+      },
     });
     if (existingDeletedItem) {
-      existingDeletedItem.deleted = false;
-      await existingDeletedItem.save();
+      const restoredItem = await prisma.item.update({
+        where: { id: existingDeletedItem.id },
+        data: {
+          deleted: false,
+        },
+      });
       return res
         .status(201)
-        .json(new ApiResponse(201, existingDeletedItem, "Item stored successfully"));
+        .json(new ApiResponse(201, restoredItem, "Item stored successfully"));
     }
     if (existingItem) {
       throw new ApiError(400, "Item with this name already exists");
@@ -47,11 +61,16 @@ const createItem = async (req, res) => {
       };
     }
 
-    const item = await Items.create({
-      createdBy: user._id,
-      name: normalizedName,
-      price,
-      image,
+    const item = await prisma.item.create({
+      data: {
+        createdBy: {
+          connect: { id: user.id },
+        },
+        name: normalizedName,
+        price: parseFloat(price),
+        imageUrl: image.url,
+        imageLocalPath: image.localpath,
+      },
     });
 
     return res
