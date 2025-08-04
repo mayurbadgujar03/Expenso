@@ -264,22 +264,40 @@ const updatePrice = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    // const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        fullname: true,
+        email: true,
+      },
+    });
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const item = await Items.findById(item_id);
+    // const item = await Items.findById(item_id);
+    const item = await prisma.item.findUnique({
+      where: { id: parseInt(item_id) },
+    });
     if (!item) {
       throw new ApiError(404, "Item not found");
     }
 
-    item.price = price;
-    await item.save();
+    // item.price = price;
+    // await item.save();
+
+    const updatedItem = await prisma.item.update({
+      where: { id: item.id },
+      data: {
+        price: parseFloat(price),
+      },
+    });
 
     return res
       .status(200)
-      .json(new ApiResponse(200, item, "Price updated successfully"));
+      .json(new ApiResponse(200, updatedItem, "Price updated successfully"));
   } catch (error) {
     if (error instanceof ApiError) {
       return res.status(error.statusCode).json(error);
@@ -300,22 +318,39 @@ const deleteItem = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    // const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        fullname: true,
+        email: true,
+      },
+    });
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const item = await Items.findById(item_id);
+    // const item = await Items.findById(item_id);
+    const item = await prisma.item.findUnique({
+      where: { id: parseInt(item_id) },
+    });
     if (!item) {
       throw new ApiError(404, "Item not found");
     }
 
-    item.deleted = true;
-    await item.save();
+    // item.deleted = true;
+    // await item.save();
+    const deletedItem = await prisma.item.update({
+      where: { id: item.id },
+      data: {
+        deleted: true,
+      },
+    });
 
     return res
       .status(200)
-      .json(new ApiResponse(200, item, "Item deleted successfully"));
+      .json(new ApiResponse(200, deletedItem, "Item deleted successfully"));
   } catch (error) {
     if (error instanceof ApiError) {
       return res.status(error.statusCode).json(error);
