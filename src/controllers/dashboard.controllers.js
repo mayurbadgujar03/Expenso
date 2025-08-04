@@ -88,7 +88,21 @@ const createItem = async (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        email: true,
+        fullname: true,
+        username: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!user) {
+      throw new ApiError(401, "Session expired, please login again");
+    }
+
     const now = new Date();
     const startingOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endingOfMonth = new Date(
@@ -115,16 +129,20 @@ const dashboard = async (req, res) => {
       999,
     );
 
-    if (!user) {
-      throw new ApiError(401, "Session expired, please login again");
-    }
+    const items = await prisma.item.findMany({
+      where: {
+        createdById: user.id,
+        deleted: false,
+      },
+    });
 
-    const items = await Items.find({ createdBy: user._id, deleted: false });
-    const monthlyPurchasedItems = await Purchase.find({
-      createdBy: user._id,
-      createdAt: {
-        $gte: startingOfMonth,
-        $lte: endingOfMonth,
+    const monthlyPurchasedItems = await prisma.purchase.findMany({
+      where: {
+        createdById: user.id,
+        createdAt: {
+          gte: startingOfMonth,
+          lte: endingOfMonth,
+        },
       },
     });
 
@@ -133,11 +151,13 @@ const dashboard = async (req, res) => {
       monthlyTotal += purchasedItem.total_price;
     });
 
-    const dailyPurchasedItems = await Purchase.find({
-      createdBy: user._id,
-      createdAt: {
-        $gte: startingOfDay,
-        $lte: endingOfDay,
+    const dailyPurchasedItems = await prisma.purchase.findMany({
+      where: {
+        createdById: user.id,
+        createdAt: {
+          gte: startingOfDay,
+          lte: endingOfDay,
+        },
       },
     });
 
