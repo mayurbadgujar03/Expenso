@@ -82,13 +82,11 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    // const user = await User.findOne({ email });
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new ApiError(400, "Invalid email or password");
     }
 
-    // const isMatch = await user.isPasswordCorrect(password);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new ApiError(400, "Invalid email or password");
