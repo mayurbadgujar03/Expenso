@@ -8,11 +8,30 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
   fullname  String
-  email     String   @unique
+  email     String     @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Purchase  Purchase[]
+}
+
+model Purchase {
+  id           Int      @id @default(autoincrement())
+  createdBy    User     @relation(fields: [createdById], references: [id])
+  createdById  Int
+  item         Item     @relation(fields: [itemId], references: [id])
+  itemId       Int
+  quantity     Int
+  total_price  Float
+  currentPrice Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Item {
+  id       Int        @id @default(autoincrement())
+  Purchase Purchase[]
 }
