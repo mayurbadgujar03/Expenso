@@ -198,13 +198,22 @@ const confirm = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        fullname: true,
+        email: true,
+      },
+    });
 
     if (!user) {
       throw new ApiError(401, "Session expired, please login again");
     }
 
-    const item = await Items.findById(item_id);
+    const item = await prisma.item.findUnique({
+      where: { id: item_id },
+    });
     if (item.price * quantity !== total_price) {
       console.warn("Price mismatch detected for user:", user.fullname);
       return res
@@ -217,12 +226,18 @@ const confirm = async (req, res) => {
         );
     }
 
-    const purchase = await Purchase.create({
-      createdBy: user._id,
-      item: item._id,
-      currentPrice: item.price,
-      quantity,
-      total_price,
+    const purchase = await prisma.purchase.create({
+      data: {
+        createdBy: {
+          connect: { id: user.id },
+        },
+        item: {
+          connect: { id: item.id },
+        },
+        currentPrice: item.price,
+        quantity,
+        total_price,
+      },
     });
 
     return res
