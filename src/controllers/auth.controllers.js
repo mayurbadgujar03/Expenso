@@ -82,19 +82,21 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    // const user = await User.findOne({ email });
+    const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new ApiError(400, "Invalid email or password");
     }
 
-    const isMatch = await user.isPasswordCorrect(password);
+    // const isMatch = await user.isPasswordCorrect(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new ApiError(400, "Invalid email or password");
     }
 
     const token = jwt.sign(
       {
-        id: user._id,
+        id: user.id,
       },
       process.env.JWT_SECRET,
       {
@@ -116,7 +118,7 @@ const loginUser = async (req, res) => {
         {
           token,
           user: {
-            id: user._id,
+            id: user.id,
             fullname: user.fullname,
             email: user.email,
           },
