@@ -1,10 +1,14 @@
 import { User } from "../models/Users.models.js";
+import { PrismaClient } from "@prisma/client";
 
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
 
 dotenv.config();
 
@@ -22,20 +26,29 @@ const registerUser = async (req, res) => {
       );
   }
   try {
-    const existingUserEmail = await User.findOne({ email });
+    const existingUserEmail = await prisma.user.findUnique({
+      where: { email },
+    });
     if (existingUserEmail) {
       throw new ApiError(400, "User already exists with this email");
     }
-    const existingUserUsername = await User.findOne({ username });
+
+    const existingUserUsername = await prisma.user.findUnique({
+      where: { username },
+    });
     if (existingUserUsername) {
       throw new ApiError(400, "User already exists with this username");
     }
 
-    const user = await User.create({
-      username,
-      fullname,
-      email,
-      password,
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        fullname,
+        email,
+        password: hashedPassword,
+      },
     });
     if (!user) {
       throw new ApiError(
@@ -47,7 +60,7 @@ const registerUser = async (req, res) => {
     return res
       .status(201)
       .json(
-        new ApiResponse(201, { userId: user._id }, "User stored successfully"),
+        new ApiResponse(201, { userId: user.id }, "User stored successfully"),
       );
   } catch (error) {
     if (error instanceof ApiError) {
