@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  fullname  String
-  email     String     @unique
-  password  String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  
-  Purchase  Purchase[]
-  Item      Item[]
+  id                 Int        @id @default(autoincrement())
+  email              String     @unique
+  magicToken         String?    @unique
+  magicTokenExpiry   DateTime?
+  refreshToken       String?
+  refreshTokenExpiry DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  Purchase           Purchase[]
+  Item               Item[]
 }
 
 model Purchase {
@@ -34,18 +34,17 @@ model Purchase {
 }
 
 model Item {
-  id             Int      @id @default(autoincrement())
-  createdBy      User     @relation(fields: [createdById], references: [id])
+  id             Int        @id @default(autoincrement())
+  createdBy      User       @relation(fields: [createdById], references: [id])
   createdById    Int
   name           String
   price          Float
-  imageUrl       String   @default("https://placehold.co/600x400")
-  imageLocalPath String   @default("")
-  deleted        Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  purchases Purchase[]
+  imageUrl       String     @default("https://placehold.co/600x400")
+  imageLocalPath String     @default("")
+  deleted        Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  purchases      Purchase[]
 
   @@unique([createdById, name])
 }

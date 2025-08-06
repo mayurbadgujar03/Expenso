@@ -1,7 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import { addDays } from 'date-fns';
 
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateToken.js";
 
 const prisma = new PrismaClient();
 
@@ -84,21 +89,65 @@ const createItem = async (req, res) => {
 };
 
 const dashboard = async (req, res) => {
+  const token = req.params.token;
+
+  if (!token) {
+    return res
+      .status(400)
+      .json(new ApiError(400, "Link expried, Please login again."));
+  }
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        username: true,
-        createdAt: true,
-        updatedAt: true,
+    const user = await prisma.user.findFirst({
+      where: {
+        magicToken: token,
+        magicTokenExpiry: {
+          gte: new Date(),
+        },
       },
     });
+
     if (!user) {
-      throw new ApiError(401, "Session expired, please login again");
+      throw new ApiError(
+        401,
+        "Magic link expired or invalid. Please login again.",
+      );
     }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        magicToken: null,
+        magicTokenExpiry: null,
+      },
+    });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        refreshToken,
+        refreshTokenExpiry: addDays(new Date(), 7),
+      },
+    });
+
+    const accessCookieOptions = {
+      httpOnly: true,
+      secure: true,
+      maxAge: 12 * 60 * 60 * 1000,
+      sameSite: "Strict",
+    };
+
+    const refreshCookieOptions = {
+      httpOnly: true,
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "Strict",
+    };
+
+    res.cookie("accessToken", accessToken, accessCookieOptions);
+    res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 
     const now = new Date();
     const startingOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

@@ -12,7 +12,7 @@ import {
 const router = Router();
 
 router.route("/dashboard/item/create").post(isLoggedIn, createItem);
-router.route("/dashboard").get(isLoggedIn, dashboard);
+router.route("/dashboard/:token").get(dashboard);
 router.route("/dashboard/purchase/confirm").post(isLoggedIn, confirm);
 router.route("/dashboard/update-price/:item_id").put(isLoggedIn, updatePrice);
 router.route("/dashboard/delete-item/:item_id").delete(isLoggedIn, deleteItem);

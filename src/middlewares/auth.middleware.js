@@ -6,19 +6,18 @@ import { ApiError } from "../utils/api-error.js";
 dotenv.config();
 
 const isLoggedIn = async (req, res, next) => {
-  const token = req.cookies?.token;
+  const token = req.cookies?.accessToken;
+
+  if (!token) {
+    return res.status(401).json(new ApiError(401, "Unauthorized"));
+  }
 
   try {
-    if (!token) {
-      throw new ApiError(400, "Authentication failed");
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.user = decoded;
-
     next();
   } catch (error) {
-    return res.status(500).json(new ApiError(500, "Internal server error"));
+    return res.status(403).json(new ApiError(403, "Invalid or expired token"));
   }
 };
 
