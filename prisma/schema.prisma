@@ -8,43 +8,105 @@ datasource db {
 }
 
 model User {
-  id                 Int        @id @default(autoincrement())
-  email              String     @unique
-  magicToken         String?    @unique
+  id       String  @id @default(uuid())
+  email    String  @unique
+  fullName String?
+
+  magicToken         String?   @unique
   magicTokenExpiry   DateTime?
-  refreshToken       String?
+  refreshToken       String?   @unique
   refreshTokenExpiry DateTime?
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  Purchase           Purchase[]
-  Item               Item[]
+
+  currentBalance Decimal @default(0)
+  savingsJar     Decimal @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions   Transaction[]
+  favourites     Favourite[]
+  groups         GroupMembership[]
+  createdGroups  Group[]           @relation("GroupCreator")
+  paidExpenses   SharedExpense[]   @relation("Payer")
+  debtsOwed      Debt[]            @relation("Ower")
+  debtsToReceive Debt[]            @relation("Lender")
 }
 
-model Purchase {
-  id           Int      @id @default(autoincrement())
-  createdBy    User     @relation(fields: [createdById], references: [id])
-  createdById  Int
-  item         Item     @relation(fields: [itemId], references: [id])
-  itemId       Int
-  quantity     Int
-  total_price  Float
-  currentPrice Float
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model Transaction {
+  id           String   @id @default(uuid())
+  amount       Decimal
+  type         String
+  description  String
+  date         DateTime
+  categoryName String 
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  sharedExpenseDebt Debt?
+
+  @@index([userId, date])
 }
 
-model Item {
-  id             Int        @id @default(autoincrement())
-  createdBy      User       @relation(fields: [createdById], references: [id])
-  createdById    Int
-  name           String
-  price          Float
-  imageUrl       String     @default("https://placehold.co/600x400")
-  imageLocalPath String     @default("")
-  deleted        Boolean    @default(false)
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  purchases      Purchase[]
+model Group {
+  id        String   @id @default(uuid())
+  name      String
+  icon      String?
+  createdAt DateTime @default(now())
 
-  @@unique([createdById, name])
+  creator        User              @relation("GroupCreator", fields: [creatorId], references: [id])
+  creatorId      String
+  members        GroupMembership[]
+  sharedExpenses SharedExpense[]
+}
+
+model GroupMembership {
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId  String
+  joinedAt DateTime @default(now())
+
+  @@id([userId, groupId])
+}
+
+model SharedExpense {
+  id          String   @id @default(uuid())
+  description String
+  totalAmount Decimal
+  date        DateTime
+
+  payer   User   @relation("Payer", fields: [payerId], references: [id])
+  payerId String
+  group   Group  @relation(fields: [groupId], references: [id])
+  groupId String
+  debts   Debt[]
+}
+
+model Debt {
+  id     String  @id @default(uuid())
+  amount Decimal
+  status String  @default("PENDING") // "PENDING" or "PAID"
+
+  sharedExpense   SharedExpense @relation(fields: [sharedExpenseId], references: [id], onDelete: Cascade)
+  sharedExpenseId String
+  ower            User          @relation("Ower", fields: [owerId], references: [id], onDelete: Cascade)
+  owerId          String
+  lender          User          @relation("Lender", fields: [lenderId], references: [id], onDelete: Cascade)
+  lenderId        String
+  transaction     Transaction?  @relation(fields: [transactionId], references: [id])
+  transactionId   String?       @unique
+}
+
+model Favourite {
+  id            String  @id @default(uuid())
+  name          String
+  defaultAmount Decimal
+  icon          String?
+  categoryName  String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId])
 }
